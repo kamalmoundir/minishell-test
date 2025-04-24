@@ -331,3 +331,6 @@ echo "$PWD         "a
 echo "         $PWD"
          /Users/wollio/Desktop/projects/4/minishell
 ```
+
+
+echo "Starting test" | tee >(mkdir -p test_dir) >(cd test_dir 2>/dev/null || true) | cat | grep "Starting" | tee >(echo "Hello World" > test_dir/file1.txt) | cat | tee >(echo "Another line" >> test_dir/file1.txt) | tee >(cat test_dir/file1.txt | grep "Hello" | wc -l > test_dir/results.txt) | tee >(export TEST_VAR="test_value") | tee >(echo $TEST_VAR | tr 'a-z' 'A-Z' >> test_dir/results.txt) | tee >(ls -la /usr/bin | grep "^-..x..x..x" | head -n 5 >> test_dir/results.txt) | tee >((echo "Command in subshell" | cat - <(date "+%Y-%m-%d")) >> test_dir/results.txt) | tee >(touch test_dir/file{1..5}.tmp) | tee >(echo "Created: $(ls test_dir/*.tmp | wc -l) temporary files" >> test_dir/results.txt) | tee >(find test_dir -name "*.txt" -type f -exec cat {} \; | sort | uniq > test_dir/sorted_output.txt) | tee >(echo 'Single quoted $TEST_VAR' >> test_dir/results.txt) | tee >(echo "Double quoted $TEST_VAR" >> test_dir/results.txt) | tee >(echo "Current path is $PWD" >> test_dir/results.txt) | cat test_dir/results.txt | tee >(rm -rf test_dir)
